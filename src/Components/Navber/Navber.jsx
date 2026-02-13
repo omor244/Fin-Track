@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { Menu, X, LogOut, User, Settings, BarChart3 } from 'lucide-react';
+import { Menu, X, LogOut, User, Settings, BarChart3, ShieldCheck } from 'lucide-react';
 import Logo from '../../Pages/Logo';
 import useAuth from '../../Hooks/useAuth';
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
-    const { user, logOut } = useAuth()
-    
-    console.log(user)
+    const { user, logOut } = useAuth();
 
-
-   
-    const userRole = localStorage.getItem('userRole');
-    const userName = localStorage.getItem('userName');
+    // Fallbacks for local storage data
+    const userRole = localStorage.getItem('userRole') || 'user';
+    const userName = localStorage.getItem('userName') || user?.displayName || 'User';
 
     const handleLogout = () => {
-        logOut()
+        logOut();
         navigate('/login');
     };
 
@@ -28,25 +24,25 @@ const Navbar = () => {
         { path: '/', label: 'Home' },
         { path: '/features', label: 'Features' },
         { path: '/pricing', label: 'Pricing' },
-        { path: '/contact', label: 'Contact' },
+        { path: '/security', label: 'Security' },
     ];
 
     return (
-        <div className="navbar sticky top-0 z-50 bg-base-100 px-32 shadow-lg">
-      
+        <div className="navbar sticky top-0 z-50 bg-base-100 shadow-sm border-b border-base-200 px-10 md:px-8 lg:px-48">
+            {/* --- Navbar Start: Logo --- */}
             <div className="navbar-start">
-             <Logo></Logo>
+                <Logo />
             </div>
 
-            {/* Middle Section - Desktop Navigation Links */}
+            {/* --- Navbar Center: Desktop Links --- */}
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 gap-2">
                     {navLinks.map((link) => (
                         <li key={link.path}>
                             <Link
                                 to={link.path}
-                                className={`rounded-lg transition-all ${isActive(link.path)
-                                        ? 'bg-primary text-primary-content font-bold'
+                                className={`rounded-xl px-4 py-2 transition-all font-medium ${isActive(link.path)
+                                        ? 'bg-primary text-primary-content shadow-md'
                                         : 'text-base-content hover:bg-base-200'
                                     }`}
                             >
@@ -57,141 +53,90 @@ const Navbar = () => {
                 </ul>
             </div>
 
-            {/* Right Section */}
-            <div className="navbar-end flex items-center gap-2 lg:gap-4">
-             
-
-               
+            {/* --- Navbar End: Profile/Auth --- */}
+            <div className="navbar-end gap-2">
                 {!user ? (
                     <>
-                        {/* Desktop Buttons */}
-                        <div className="hidden sm:flex gap-2">
-                            <Link
-                                to="/login"
-                                className="btn btn-ghost btn-sm lg:btn-md hover:bg-primary hover:text-primary-content transition-all"
-                            >
+                        {/* Desktop Guest Buttons */}
+                        <div className="hidden sm:flex items-center gap-2">
+                            <Link to="/login" className="btn btn-ghost btn-md normal-case font-bold">
                                 Sign In
                             </Link>
-                            <Link
-                                to="/register"
-                                className="btn btn-primary btn-sm lg:btn-md hover:scale-105 transition-transform"
-                            >
+                            <Link to="/register" className="btn btn-primary btn-md rounded-xl normal-case font-bold shadow-lg shadow-primary/20">
                                 Get Started
                             </Link>
                         </div>
 
-                        {/* Mobile Menu Button */}
+                        {/* Mobile Guest Menu */}
                         <div className="dropdown dropdown-end lg:hidden">
-                            <button className="btn btn-ghost btn-circle">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                                 <Menu size={24} />
-                            </button>
-                            <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                            </div>
+                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-3 shadow-2xl bg-base-100 rounded-2xl w-64 mt-4 border border-base-200">
+                                <li className="menu-title text-xs uppercase tracking-widest opacity-50">Navigation</li>
                                 {navLinks.map((link) => (
                                     <li key={link.path}>
-                                        <Link
-                                            to={link.path}
-                                            className={isActive(link.path) ? 'active' : ''}
-                                        >
+                                        <Link to={link.path} className={isActive(link.path) ? 'active' : ''}>
                                             {link.label}
                                         </Link>
                                     </li>
                                 ))}
-                                <li className="divider my-2"></li>
-                                <li>
-                                    <Link to="/login" className="text-primary font-semibold">
-                                        Sign In
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/register" className="bg-primary text-primary-content font-semibold">
-                                        Get Started
-                                    </Link>
-                                </li>
+                                <div className="divider my-1"></div>
+                                <li><Link to="/login" className="font-bold">Sign In</Link></li>
+                                <li><Link to="/register" className="btn btn-primary btn-sm text-white mt-2">Get Started</Link></li>
                             </ul>
                         </div>
                     </>
                 ) : (
-                    <>
-                        {/* Desktop User Menu */}
-                        <div className="hidden lg:flex items-center gap-4">
-                            <div className="text-sm">
-                                <p className="font-semibold text-base-content">Hello, {userName}</p>
-                                <p className="text-xs text-base-content/60 capitalize">{userRole}</p>
-                            </div>
-
-                            <div className="dropdown dropdown-end">
-                                <button className="btn btn-ghost btn-circle avatar">
-                                    <div className="w-10 rounded-full bg-primary text-primary-content flex items-center justify-center">
-                                        <User size={20} />
-                                    </div>
-                                </button>
-                                <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                    <li className="menu-title">
-                                        <span>{userRole === 'admin' ? '👨‍💼 Admin' : '👤 User'}</span>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to={userRole === 'admin' ? '/admin/dashboard' : '/dashboard'}
-                                            className="flex items-center gap-2"
-                                        >
-                                            <BarChart3 size={16} /> Dashboard
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/profile" className="flex items-center gap-2">
-                                            <User size={16} /> Profile
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/settings" className="flex items-center gap-2">
-                                            <Settings size={16} /> Settings
-                                        </Link>
-                                    </li>
-                                    <li className="divider my-2"></li>
-                                    <li>
-                                        <button
-                                            onClick={handleLogout}
-                                            className="text-error flex items-center gap-2"
-                                        >
-                                            <LogOut size={16} /> Logout
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
+                    <div className="flex items-center gap-3">
+                        {/* Desktop User Info */}
+                        <div className="hidden md:block text-right">
+                            <p className="text-sm font-black text-base-content leading-none mb-1">{userName}</p>
+                            <p className="text-[10px] uppercase tracking-tighter opacity-60 font-bold">{userRole}</p>
                         </div>
 
-                        {/* Mobile User Menu */}
-                        <div className="lg:hidden dropdown dropdown-end">
-                            <button className="btn btn-ghost btn-circle">
-                                <Menu size={24} />
-                            </button>
-                            <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <li className="menu-title">
-                                    <span>{userName}</span>
-                                </li>
+                        {/* User Dropdown (Works for both Desktop & Mobile) */}
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar online">
+                                <div className="w-10 rounded-full border-2 border-primary ring ring-primary ring-offset-base-100 ring-offset-2">
+                                    {user?.photoURL ? (
+                                        <img src={user.photoURL} alt="Profile" />
+                                    ) : (
+                                        <div className="bg-primary text-primary-content h-full flex items-center justify-center font-bold">
+                                            {userName.charAt(0)}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-3 shadow-2xl bg-base-100 rounded-2xl w-64 mt-4 border border-base-200">
+                                <li className="menu-title opacity-50 lg:hidden">Menu</li>
+                                {navLinks.map((link) => (
+                                    <li key={link.path} className="lg:hidden">
+                                        <Link to={link.path}>{link.label}</Link>
+                                    </li>
+                                ))}
+                                <div className="divider my-1 lg:hidden"></div>
+
+                                <li className="menu-title opacity-50">Account</li>
                                 <li>
-                                    <Link to={userRole === 'admin' ? '/admin/dashboard' : '/dashboard'}>
-                                        Dashboard
+                                    <Link to={userRole === 'admin' ? '/admin/dashboard' : '/dashboard'} className="py-3">
+                                        <BarChart3 size={18} className="text-primary" /> Dashboard
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/profile">Profile</Link>
+                                    <Link to="/profile" className="py-3">
+                                        <User size={18} className="text-primary" /> Profile Settings
+                                    </Link>
                                 </li>
+                                <div className="divider my-1"></div>
                                 <li>
-                                    <Link to="/settings">Settings</Link>
-                                </li>
-                                <li className="divider my-2"></li>
-                                <li>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="text-error"
-                                    >
-                                        Logout
+                                    <button onClick={handleLogout} className="text-error font-bold py-3">
+                                        <LogOut size={18} /> Sign Out
                                     </button>
                                 </li>
                             </ul>
                         </div>
-                    </>
+                    </div>
                 )}
             </div>
         </div>

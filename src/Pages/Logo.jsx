@@ -13,6 +13,7 @@ const Logo = () => {
                     <BarChart3 size={28} className="text-primary" />
                     <span className="hidden sm:inline">FinTrack</span>
                 </Link>
+                
             </div>
         </div>
     );

@@ -7,6 +7,7 @@ import WhyChoose from '../WhyChoose';
 import HowItWorks from '../HowItWorks';
 import Pricing from '../Pricing';
 import CTASection from '../CTASection';
+import MetricsSection from '../MetricsSection';
 
 export default function HomePage() {
     return (
@@ -24,10 +25,10 @@ export default function HomePage() {
   
 
           
-            <Pricing></Pricing>
+           <CTASection></CTASection>
+            <MetricsSection></MetricsSection>
 
         
-           <CTASection></CTASection>
 
          
         </div>
