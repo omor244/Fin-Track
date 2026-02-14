@@ -15,6 +15,10 @@ import BudgetsAndGoals from "../Dashboard/Pages/BudgetsAndGoals";
 import CategoryManagement from "../Dashboard/Pages/CategoryManagement";
 import FinancialTipsManagement from "../Dashboard/Pages/FinancialTipsManagement";
 import SystemReport from "../Dashboard/Pages/SystemReport";
+import ExpenseAnalytics from "../Dashboard/Pages/ExpenseAnalytics";
+import AdminRoute from "../Hooks/AdminRoute";
+
+
 
 
 
@@ -67,7 +71,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "users",
-                element: <ManageUsers></ManageUsers>
+                element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
             },
             {
                 path: "budgets",
@@ -75,15 +79,19 @@ export const router = createBrowserRouter([
             },
             {
                 path: "categories",
-                element: <CategoryManagement></CategoryManagement>
+                element: <AdminRoute><CategoryManagement></CategoryManagement></AdminRoute>
             },
             {
                 path: "Financial-Tips",
-                element: <FinancialTipsManagement></FinancialTipsManagement>
+                element: <AdminRoute><FinancialTipsManagement></FinancialTipsManagement></AdminRoute>
             },
             {
                 path: "reports",
-                element: <SystemReport></SystemReport>
+                element: <AdminRoute><SystemReport></SystemReport></AdminRoute>
+            },
+            {
+                path: "analytics",
+                element: <ExpenseAnalytics></ExpenseAnalytics>
             },
         ]
     }

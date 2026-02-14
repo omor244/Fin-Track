@@ -50,9 +50,7 @@ const SystemReport = () => {
                         Comprehensive system-wide audit and analytics
                     </p>
                 </div>
-                <button className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold text-sm hover:bg-orange-600 transition-all shadow-lg">
-                    <Download size={18} /> Download Full PDF
-                </button>
+            
             </div>
 
             {/* Summary Cards */}

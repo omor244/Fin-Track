@@ -3,12 +3,13 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { Menu, X, LogOut, User, Settings, BarChart3, ShieldCheck } from 'lucide-react';
 import Logo from '../../Pages/Logo';
 import useAuth from '../../Hooks/useAuth';
+import useRole from '../../Hooks/useRole';
 
 const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { user, logOut } = useAuth();
-
+    const {role} = useRole()
     // Fallbacks for local storage data
     const userRole = localStorage.getItem('userRole') || 'user';
     const userName = localStorage.getItem('userName') || user?.displayName || 'User';
@@ -92,7 +93,7 @@ const Navbar = () => {
                         {/* Desktop User Info */}
                         <div className="hidden md:block text-right">
                             <p className="text-sm font-black text-base-content leading-none mb-1">{userName}</p>
-                            <p className="text-[10px] uppercase tracking-tighter opacity-60 font-bold">{userRole}</p>
+                            <p className="text-[10px] uppercase tracking-tighter opacity-60 font-bold">{role}</p>
                         </div>
 
                         {/* User Dropdown (Works for both Desktop & Mobile) */}

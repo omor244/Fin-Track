@@ -44,7 +44,7 @@ const DashboardNavbar = () => {
         const userLinks = [
             { label: "My Transactions", path: "/dashboard/transactions", icon: <ArrowUpDown size={20} /> }, 
             { label: "Budgets & Goals", path: "/dashboard/budgets", icon: <Wallet size={20} /> }, 
-            { label: "Expense Analytics", path: "/analytics", icon: <PieChart size={20} /> },
+            { label: "Expense Analytics", path: "/dashboard/analytics", icon: <PieChart size={20} /> },
         ];
 
         return {

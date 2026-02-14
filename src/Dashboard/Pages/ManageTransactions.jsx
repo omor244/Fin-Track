@@ -14,19 +14,25 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import LoadingPage from '../../Components/Loading/LoadingPage';
 import Swal from 'sweetalert2';
+import useAuth from '../../Hooks/useAuth';
 
 const ManageTransactions = () => {
     const AxiosSecure = useAxiosSecure();
+    const {user} = useAuth()
 
     // Fetch transactions from backend
     const { data: payments = [], isLoading, refetch } = useQuery({
-        queryKey: ['transactions'],
+        queryKey: ['my-payment', user?.email],
         queryFn: async () => {
-            const res = await AxiosSecure('/payment');
+            const res = await AxiosSecure(`/single/${user?.email}`);
             return res.data;
         }
     });
 
+
+    console.log(payments)
+    
+   
     const handleDelete = async (id) => {
 
         Swal.fire({
@@ -85,7 +91,8 @@ const ManageTransactions = () => {
         }
     };
 
-    if (isLoading) return <LoadingPage />;
+ 
+
 
     return (
         <div className="p-6 md:p-10 space-y-8 bg-[#FDFDFD] min-h-screen font-sans">
@@ -118,7 +125,7 @@ const ManageTransactions = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                            {payments.map((item) => (
+                           {payments.map((item) => (
                                 <tr key={item._id} className="hover:bg-slate-50/50 transition-colors group">
                                     <td className="p-6">
                                         <div className="flex items-center gap-4">
@@ -182,7 +189,7 @@ const ManageTransactions = () => {
                                         </div>
                                     </td>
                                 </tr>
-                            ))}
+                            ))}  
                         </tbody>
                     </table>
                 </div>
