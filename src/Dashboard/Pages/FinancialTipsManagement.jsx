@@ -28,12 +28,25 @@ const FinancialTipsManagement = () => {
         const title = form.title.value;
         const description = form.description.value;
         const category = form.category.value;
-
+ 
+        console.log({ title, description, category })
+        const tripsdata = {
+            title: title,
+            description: description,
+            category: category,
+            postedBy: "Admin",
+            data: new Date().toLocaleDateString()
+        }
+        
         try {
-            await AxiosSecure.post('/financial-tips', { title, description, category });
-            form.reset();
-            refetch();
-            Swal.fire({ title: 'Tip Published!', icon: 'success', timer: 1500, showConfirmButton: false });
+            const res = await AxiosSecure.post('/trips', tripsdata);
+            console.log(res.data)
+            
+            if (res.data.insertedId) {
+                form.reset();
+                refetch();
+                Swal.fire({ title: 'Tip Published!', icon: 'success', timer: 1500, showConfirmButton: false });
+            }
         } catch (error) {
             Swal.fire('Error', 'Failed to save tip', 'error');
         }
