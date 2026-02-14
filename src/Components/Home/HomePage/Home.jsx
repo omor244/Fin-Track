@@ -27,6 +27,7 @@ export default function HomePage() {
 
           
            <CTASection></CTASection>
+            <Pricing></Pricing>
             <MetricsSection></MetricsSection>
 
         

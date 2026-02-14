@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/pricing",
-                element: <Pricing></Pricing>
+                element: <ManualPayment></ManualPayment>
             },
             {
                 path: "/features",
@@ -44,10 +44,7 @@ export const router = createBrowserRouter([
                 path: "/security",
                 element:  <SecurityPage></SecurityPage>
             },
-            {
-                path: "/payment",
-                element:  <ManualPayment></ManualPayment>
-            },
+         
         ]
     },
     {
