@@ -8,6 +8,7 @@ import HowItWorks from '../HowItWorks';
 import Pricing from '../Pricing';
 import CTASection from '../CTASection';
 import MetricsSection from '../MetricsSection';
+import TipsSection from '../TipsSection';
 
 export default function HomePage() {
     return (
@@ -15,7 +16,7 @@ export default function HomePage() {
 
            
             <Banner></Banner>
-
+        <TipsSection></TipsSection>
            
            <WhyChoose></WhyChoose>
 

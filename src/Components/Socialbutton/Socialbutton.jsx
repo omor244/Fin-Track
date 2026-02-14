@@ -30,7 +30,7 @@ const SocialButton = () => {
             if (result.user) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Welcome to MealMind!',
+                    title: 'Welcome to Fin Track!',
                     text: `Glad to see you, ${result.user.displayName.split(' ')[0]}!`,
                     timer: 2000,
                     showConfirmButton: false

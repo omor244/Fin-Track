@@ -15,7 +15,7 @@ import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import LoadingPage from '../../Components/Loading/LoadingPage';
 import Swal from 'sweetalert2';
 
-const ManageTransactions = () => {
+const CategoryManagement = () => {
     const AxiosSecure = useAxiosSecure();
 
     // Fetch transactions from backend
@@ -51,9 +51,9 @@ const ManageTransactions = () => {
     };
 
     const handleStatusChange = async (id, newStatus) => {
-     
 
-        
+
+
         try {
             Swal.fire({
                 title: "Are you sure?",
@@ -63,23 +63,23 @@ const ManageTransactions = () => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, update it!"
-            }).then( async (result) => {
-                
+            }).then(async (result) => {
+
                 if (result.isConfirmed) {
                     const res = await AxiosSecure.patch(`/payment/${id}`, { status: newStatus });
-                  
+
                     if (res.data.modifiedCount) {
-                        
+
                         Swal.fire({
                             title: "Updated!",
                             text: "Your file has been updated.",
                             icon: "success"
-                          });
-                          refetch();
+                        });
+                        refetch();
                     }
                 }
             });
-            
+
         } catch (error) {
             console.error("Update failed", error);
         }
@@ -191,4 +191,4 @@ const ManageTransactions = () => {
     );
 };
 
-export default ManageTransactions;
+export default CategoryManagement;

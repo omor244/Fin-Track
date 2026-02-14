@@ -11,6 +11,9 @@ import ManageTransactions from "../Dashboard/Pages/ManageTransactions";
 import ManualPayment from "../Pages/ManualPayment";
 import Pricing from "../Components/Home/Pricing";
 import ManageUsers from "../Dashboard/Pages/ManageUsers";
+import BudgetsAndGoals from "../Dashboard/Pages/BudgetsAndGoals";
+import CategoryManagement from "../Dashboard/Pages/CategoryManagement";
+import FinancialTipsManagement from "../Dashboard/Pages/FinancialTipsManagement";
 
 
 
@@ -64,6 +67,18 @@ export const router = createBrowserRouter([
             {
                 path: "users",
                 element: <ManageUsers></ManageUsers>
+            },
+            {
+                path: "budgets",
+                element: <BudgetsAndGoals></BudgetsAndGoals>
+            },
+            {
+                path: "categories",
+                element: <CategoryManagement></CategoryManagement>
+            },
+            {
+                path: "Financial-Tips",
+                element: <FinancialTipsManagement></FinancialTipsManagement>
             },
         ]
     }
