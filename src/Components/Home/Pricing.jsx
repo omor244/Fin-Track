@@ -1,7 +1,10 @@
 import { Check, X, Crown, Building2, Zap } from "lucide-react";
 import { Link } from "react-router";
+import useAuth from "../../Hooks/useAuth";
 
 const Pricing = () => {
+
+    const {user} = useAuth()
     return (
         <section className="py-24 bg-slate-50/50 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
@@ -45,9 +48,13 @@ const Pricing = () => {
                             </li>
                         </ul>
 
-                        <Link to="/register" className="btn btn-outline border-slate-200 hover:bg-slate-900 hover:border-slate-900 hover:text-white text-slate-700 w-full rounded-2xl h-14 normal-case font-bold">
-                            Get Started
-                        </Link>
+                        {
+                            user ? <>  <Link  className="btn btn-outline border-slate-200 hover:bg-slate-900 hover:border-slate-900 hover:text-white text-slate-700 w-full rounded-2xl h-14 normal-case font-bold">
+                               Already paid
+                            </Link></> : <>  <Link to="/register" className="btn btn-outline border-slate-200 hover:bg-slate-900 hover:border-slate-900 hover:text-white text-slate-700 w-full rounded-2xl h-14 normal-case font-bold">
+                                Get Started
+                            </Link></>
+                       }
                     </div>
 
                     {/* --- Pro Plan (Featured) --- */}
@@ -82,7 +89,7 @@ const Pricing = () => {
                             </li>
                         </ul>
 
-                        <Link to="/register" className="btn btn-primary w-full rounded-2xl h-14 normal-case font-extrabold text-white shadow-lg shadow-primary/30 border-none">
+                        <Link to="/payment" className="btn btn-primary w-full rounded-2xl h-14 normal-case font-extrabold text-white shadow-lg shadow-primary/30 border-none">
                             Go Pro Now
                         </Link>
                     </div>
@@ -111,9 +118,9 @@ const Pricing = () => {
                             </li>
                         </ul>
 
-                        <button className="btn btn-outline border-slate-200 hover:bg-slate-900 hover:border-slate-900 hover:text-white text-slate-700 w-full rounded-2xl h-14 normal-case font-bold">
+                        <Link to={'/payment'} className="btn btn-outline border-slate-200 hover:bg-slate-900 hover:border-slate-900 hover:text-white text-slate-700 w-full rounded-2xl h-14 normal-case font-bold">
                             Contact Sales
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

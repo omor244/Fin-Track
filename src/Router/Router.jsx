@@ -3,9 +3,14 @@ import MainLayOut from "../MainLayOut/MainLayOut";
 import Home from "../Components/Home/HomePage/Home";
 import LoginPage from "../Pages/LoginPage";
 import Register from "../Pages/Register";
-import PricingPage from "../Pages/PricingPage";
 import FeatureSection from "../Pages/FeatureSection";
 import SecurityPage from "../Pages/SecurityPage";
+import DashboardLayOut from "../MainLayOut/DashboardLayOut";
+import Overview from "../Dashboard/Pages/Overview";
+import ManageTransactions from "../Dashboard/Pages/ManageTransactions";
+import ManualPayment from "../Pages/ManualPayment";
+import Pricing from "../Components/Home/Pricing";
+import ManageUsers from "../Dashboard/Pages/ManageUsers";
 
 
 
@@ -20,7 +25,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/pricing",
-                element: <PricingPage></PricingPage>
+                element: <Pricing></Pricing>
             },
             {
                 path: "/features",
@@ -29,6 +34,10 @@ export const router = createBrowserRouter([
             {
                 path: "/security",
                 element:  <SecurityPage></SecurityPage>
+            },
+            {
+                path: "/payment",
+                element:  <ManualPayment></ManualPayment>
             },
         ]
     },
@@ -40,4 +49,22 @@ export const router = createBrowserRouter([
         path: "/register",
         element: <Register></Register>
     },
+    {
+        path: "/dashboard",
+        element: <DashboardLayOut></DashboardLayOut>,
+        children: [
+            {
+                path: "/dashboard",
+                element: <Overview></Overview>
+            },
+            {
+                path: "transactions",
+                element: <ManageTransactions></ManageTransactions>
+            },
+            {
+                path: "users",
+                element: <ManageUsers></ManageUsers>
+            },
+        ]
+    }
 ]);
