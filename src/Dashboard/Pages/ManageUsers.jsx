@@ -1,15 +1,13 @@
 import React from 'react';
 import {
     Users,
-    ShieldCheck,
-    UserPlus,
     Trash2,
     Mail,
     Calendar,
-    UserCog,
     Search,
     Filter,
-    MoreVertical
+    MoreVertical,
+    UserCog
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
@@ -19,7 +17,7 @@ import Swal from 'sweetalert2';
 const ManageUsers = () => {
     const AxiosSecure = useAxiosSecure();
 
-    // Fetch users from backend
+    // Fetch users data
     const { data: users = [], isLoading, refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -28,44 +26,64 @@ const ManageUsers = () => {
         }
     });
 
-    const handleRoleChange = async (user) => {
-        const newRole = user.role === 'admin' ? 'user' : 'admin';
+    // Function to handle role update via selector
+    const handleRoleUpdate = async (user, newRole) => {
+        // Avoid unnecessary API calls if the role hasn't changed
+        if (user.role === newRole) return;
 
         Swal.fire({
-            title: `Make ${user.name} an ${newRole}?`,
+            title: 'Change User Role?',
+            text: `Are you sure you want to promote/demote ${user.name} to ${newRole}?`,
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#ea580c',
-            confirmButtonText: 'Yes, update role'
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Yes, update it!',
+            cancelButtonText: 'Cancel'
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await AxiosSecure.patch(`/users/role/${user._id}`, { role: newRole });
-                    refetch();
-                    Swal.fire('Updated!', 'User role has been changed.', 'success');
+                    const res = await AxiosSecure.patch(`/users/${user._id}`, { role: newRole });
+                    
+                    if (res.data.modifiedCount) {
+                        
+                        
+                          Swal.fire({
+                              title: 'Updated!',
+                              text: 'User role has been successfully updated.',
+                              icon: 'success',
+                              timer: 1500,
+                              showConfirmButton: false
+                          });
+                          refetch(); 
+                    }
                 } catch (error) {
-                    Swal.fire('Error', 'Could not update role', 'error');
+                    Swal.fire('Error', 'Failed to update the user role.', 'error');
+                    refetch(); // Reset UI state on error
                 }
+            } else {
+                refetch(); // Revert selector state if cancelled
             }
         });
     };
 
     const handleDeleteUser = async (id) => {
         Swal.fire({
-            title: 'Delete user?',
-            text: "This action cannot be undone!",
+            title: 'Delete User?',
+            text: "This action is permanent and cannot be undone!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#be123c',
-            confirmButtonText: 'Yes, delete'
+            confirmButtonText: 'Yes, delete user'
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await AxiosSecure.delete(`/users/${id}`);
+                   const res = await AxiosSecure.delete(`/users/${id}`);
                     refetch();
-                    Swal.fire('Deleted!', 'User has been removed.', 'success');
+                    Swal.fire('Deleted!', 'The user has been removed from the database.', 'success');
                 } catch (error) {
-                    console.error(error);
+                    console.error('Delete error:', error);
+                    Swal.fire('Error', 'Could not delete the user.', 'error');
                 }
             }
         });
@@ -75,14 +93,13 @@ const ManageUsers = () => {
 
     return (
         <div className="p-6 md:p-10 space-y-8 bg-[#FDFDFD] min-h-screen font-sans">
-
             {/* Header Section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
                         User Directory
                     </h1>
-                    <p className="text-slate-500 text-sm font-medium">Manage permissions and oversee all registered accounts.</p>
+                    <p className="text-slate-500 text-sm font-medium">Manage user permissions and monitor account activity.</p>
                 </div>
                 <div className="flex gap-3">
                     <div className="relative hidden md:block">
@@ -99,29 +116,28 @@ const ManageUsers = () => {
                 </div>
             </div>
 
-            {/* User Statistics Summary */}
+            {/* Statistics */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5">
                     <div className="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center">
                         <Users size={28} />
                     </div>
                     <div>
-                        <p className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Total Users</p>
-                        <p className="text-2xl font-black text-slate-900">{users.length}</p>
+                        <p className="text-[11px] font-black uppercase text-slate-400 tracking-widest">Total Registered</p>
+                        <p className="text-2xl font-black text-slate-900">{users.length} Users</p>
                     </div>
                 </div>
-                {/* Additional stats could go here */}
             </div>
 
-            {/* Users Table */}
+            {/* Table Section */}
             <div className="bg-white rounded-[2.5rem] border border-slate-100 overflow-hidden shadow-sm">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead className="bg-slate-50/50">
                             <tr>
                                 <th className="p-6 text-[10px] font-black uppercase text-slate-400 tracking-widest">Identity</th>
-                                <th className="p-6 text-[10px] font-black uppercase text-slate-400 tracking-widest">Role</th>
-                                <th className="p-6 text-[10px] font-black uppercase text-slate-400 tracking-widest">Joined Date</th>
+                                <th className="p-6 text-[10px] font-black uppercase text-slate-400 tracking-widest">Access Level</th>
+                                <th className="p-6 text-[10px] font-black uppercase text-slate-400 tracking-widest">Date Joined</th>
                                 <th className="p-6 text-[10px] font-black uppercase text-slate-400 tracking-widest text-right">Actions</th>
                             </tr>
                         </thead>
@@ -132,7 +148,7 @@ const ManageUsers = () => {
                                         <div className="flex items-center gap-4">
                                             <div className="w-12 h-12 rounded-2xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm ring-1 ring-slate-100">
                                                 <img
-                                                    src={user.image.startsWith('http') ? user.image : `https://ui-avatars.com/api/?name=${user.name}&background=random`}
+                                                    src={user.image?.startsWith('http') ? user.image : `https://ui-avatars.com/api/?name=${user.name}&background=random`}
                                                     alt={user.name}
                                                     className="w-full h-full object-cover"
                                                 />
@@ -147,16 +163,23 @@ const ManageUsers = () => {
                                         </div>
                                     </td>
                                     <td className="p-6">
-                                        <button
-                                            onClick={() => handleRoleChange(user)}
-                                            className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-tight transition-all
+                                        {/* Role Selector Dropdown */}
+                                        <div className="relative inline-block w-32">
+                                            <select
+                                                value={user.role}
+                                                onChange={(e) => handleRoleUpdate(user, e.target.value)}
+                                                className={`appearance-none w-full px-3 py-2 rounded-xl text-[11px] font-black uppercase tracking-tighter border-none focus:ring-2 focus:ring-orange-600/20 cursor-pointer outline-none transition-all
                                                 ${user.role === 'admin'
-                                                    ? 'bg-orange-50 text-orange-600 ring-1 ring-orange-200'
-                                                    : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
-                                        >
-                                            {user.role === 'admin' ? <ShieldCheck size={14} /> : <UserCog size={14} />}
-                                            {user.role}
-                                        </button>
+                                                        ? 'bg-orange-50 text-orange-600'
+                                                        : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+                                            >
+                                                <option value="user">User</option>
+                                                <option value="admin">Admin</option>
+                                            </select>
+                                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+                                                <UserCog size={14} />
+                                            </div>
+                                        </div>
                                     </td>
                                     <td className="p-6">
                                         <div className="flex items-center gap-2 text-slate-500">
@@ -167,10 +190,11 @@ const ManageUsers = () => {
                                         </div>
                                     </td>
                                     <td className="p-6 text-right">
-                                        <div className="flex items-center justify-end gap-2 group-hover:opacity-100 transition-all">
+                                        <div className="flex items-center justify-end gap-2">
                                             <button
                                                 onClick={() => handleDeleteUser(user._id)}
                                                 className="p-2.5 text-rose-500 hover:bg-rose-50 rounded-xl transition-colors"
+                                                title="Delete User"
                                             >
                                                 <Trash2 size={18} />
                                             </button>
