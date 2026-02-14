@@ -14,6 +14,7 @@ import ManageUsers from "../Dashboard/Pages/ManageUsers";
 import BudgetsAndGoals from "../Dashboard/Pages/BudgetsAndGoals";
 import CategoryManagement from "../Dashboard/Pages/CategoryManagement";
 import FinancialTipsManagement from "../Dashboard/Pages/FinancialTipsManagement";
+import SystemReport from "../Dashboard/Pages/SystemReport";
 
 
 
@@ -79,6 +80,10 @@ export const router = createBrowserRouter([
             {
                 path: "Financial-Tips",
                 element: <FinancialTipsManagement></FinancialTipsManagement>
+            },
+            {
+                path: "reports",
+                element: <SystemReport></SystemReport>
             },
         ]
     }

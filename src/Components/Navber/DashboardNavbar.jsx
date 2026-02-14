@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import {
     LayoutDashboard,
@@ -13,7 +13,9 @@ import {
     X,
     BarChart3,
     Menu,
-    ListTree 
+    ListTree, 
+    ActivityIcon,
+    RotateCw
 } from 'lucide-react';
 import useAuth from '../../Hooks/useAuth';
 import useRole from '../../Hooks/useRole';
@@ -35,14 +37,14 @@ const DashboardNavbar = () => {
         const adminLinks = [
             { label: "Users Management", path: "/dashboard/users", icon: <Users size={20} /> },
             { label: "Category Management", path: "/dashboard/categories", icon: <ListTree size={20} /> }, // 
-            { label: "System Reports", path: "/dashboard/reports", icon: <BarChart3 size={20} /> }, // Admin 
-            { label: "Financial Tips Management", path: "/dashboard/Financial-Tips", icon: <BarChart3 size={20} /> }, // Admin 
+            { label: "System Reports", path: "/dashboard/reports", icon: <ActivityIcon size={20} /> }, // Admin 
+            { label: "Financial Tips Management", path: "/dashboard/Financial-Tips", icon: <RotateCw size={20} />  },  
         ];
 
         const userLinks = [
-            { label: "My Transactions", path: "/dashboard/transactions", icon: <ArrowUpDown size={20} /> }, // 
-            { label: "Budgets & Goals", path: "/dashboard/budgets", icon: <Wallet size={20} /> }, // User 
-            { label: "Expense Analytics", path: "/analytics", icon: <PieChart size={20} /> }, // User রিকোয়ারমেন্ট
+            { label: "My Transactions", path: "/dashboard/transactions", icon: <ArrowUpDown size={20} /> }, 
+            { label: "Budgets & Goals", path: "/dashboard/budgets", icon: <Wallet size={20} /> }, 
+            { label: "Expense Analytics", path: "/analytics", icon: <PieChart size={20} /> },
         ];
 
         return {
