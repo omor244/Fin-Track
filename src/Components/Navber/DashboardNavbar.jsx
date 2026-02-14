@@ -141,7 +141,7 @@ const DashboardNavbar = () => {
 
                 {/* Footer Section */}
                 <div className="p-4 border-t border-slate-800/50 space-y-2">
-                    <Link to="/profile" className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5 text-sm font-bold">
+                    <Link to="/dashboard/profile" className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5 text-sm font-bold">
                         <UserCircle size={20} /> My Profile
                     </Link>
                     <button onClick={logOut} className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-orange-600 hover:bg-orange-600/10 text-sm font-black text-left">

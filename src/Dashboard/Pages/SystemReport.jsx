@@ -25,7 +25,7 @@ const SystemReport = () => {
         }
     });
 
-    // Calculations
+   
     const totalIncome = payments
         .filter(p => p.type === 'income')
         .reduce((sum, current) => sum + parseFloat(current.amount || 10000), 0);

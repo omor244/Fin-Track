@@ -17,6 +17,7 @@ import FinancialTipsManagement from "../Dashboard/Pages/FinancialTipsManagement"
 import SystemReport from "../Dashboard/Pages/SystemReport";
 import ExpenseAnalytics from "../Dashboard/Pages/ExpenseAnalytics";
 import AdminRoute from "../Hooks/AdminRoute";
+import Profile from "../Dashboard/Pages/Profile";
 
 
 
@@ -92,6 +93,10 @@ export const router = createBrowserRouter([
             {
                 path: "analytics",
                 element: <ExpenseAnalytics></ExpenseAnalytics>
+            },
+            {
+                path: "profile",
+                element: <Profile></Profile>
             },
         ]
     }

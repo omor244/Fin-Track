@@ -14,17 +14,21 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import LoadingPage from '../../Components/Loading/LoadingPage';
+import useAuth from '../../Hooks/useAuth';
 
 const BudgetsAndGoals = () => {
     const AxiosSecure = useAxiosSecure();
+    const {user} = useAuth()
 
     const { data: payments = [], isLoading } = useQuery({
-        queryKey: ['transactions'],
+        queryKey: ['transactions', user?.email],
         queryFn: async () => {
             const res = await AxiosSecure('/payment');
             return res.data;
         }
     });
+
+    console.log(payments)
 
     // --- LOGIC FOR BUDGET PERCENTAGE ---
     const BUDGET_LIMIT = 50000; // Static limit for demonstration
