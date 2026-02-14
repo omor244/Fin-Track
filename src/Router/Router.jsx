@@ -18,6 +18,7 @@ import SystemReport from "../Dashboard/Pages/SystemReport";
 import ExpenseAnalytics from "../Dashboard/Pages/ExpenseAnalytics";
 import AdminRoute from "../Hooks/AdminRoute";
 import Profile from "../Dashboard/Pages/Profile";
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -34,7 +35,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/pricing",
-                element: <ManualPayment></ManualPayment>
+                element: <PrivateRoute><ManualPayment></ManualPayment></PrivateRoute>
             },
             {
                 path: "/features",
@@ -42,7 +43,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/security",
-                element:  <SecurityPage></SecurityPage>
+                element: <PrivateRoute><SecurityPage></SecurityPage></PrivateRoute>
             },
          
         ]
