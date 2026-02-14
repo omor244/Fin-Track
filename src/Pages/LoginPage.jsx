@@ -69,9 +69,7 @@ const Login = () => {
                             <div className="flex items-center gap-3 text-xs text-slate-300">
                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Real-time expense tracking
                             </div>
-                            <div className="flex items-center gap-3 text-xs text-slate-300">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> AI-powered financial insights
-                            </div>
+                           
                         </div>
                     </div>
 

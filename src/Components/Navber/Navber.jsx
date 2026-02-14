@@ -124,11 +124,7 @@ const Navbar = () => {
                                         <BarChart3 size={18} className="text-primary" /> Dashboard
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link to="/profile" className="py-3">
-                                        <User size={18} className="text-primary" /> Profile Settings
-                                    </Link>
-                                </li>
+                              
                                 <div className="divider my-1"></div>
                                 <li>
                                     <button onClick={handleLogout} className="text-error font-bold py-3">
